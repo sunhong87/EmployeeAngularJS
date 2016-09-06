@@ -1,0 +1,313 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+        <title>Free CSS template by ChocoTemplates.com</title>
+        <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+    </head>
+    <body>
+	<div ng-view>
+		<form ng-app="emp_app" ng-controller="emp_ctrl">
+        <!-- Header -->
+        <div id="header">
+            <div class="shell">
+                <!-- Logo + Top Nav -->
+                <div id="top">
+                    <h1><a href="#">SpringTime</a></h1>
+                    <div id="top-navigation">
+                        Welcome <a href="#"><strong>Administrator</strong></a>
+                        <span>|</span>
+                        <a href="#">Help</a>
+                        <span>|</span>
+                        <a href="#">Profile Settings</a>
+                        <span>|</span>
+                        <a href="#">Log out</a>
+                    </div>
+                </div>
+                <!-- End Logo + Top Nav -->
+
+                <!-- Main Nav -->
+                <div id="navigation">
+                    <ul>
+                        <li><a href="#index"><span>Dashboard</span></a></li>
+                        <li><a href="#employee" class="active"><span>Employee</span></a></li>
+                        <li><a href="#"><span>Department</span></a></li>
+                    </ul>
+                </div>
+                <!-- End Main Nav -->
+            </div>
+        </div>
+        <!-- End Header -->
+
+        <!-- Container -->
+        <div id="container">
+            <div class="shell">
+
+                <!-- Small Nav -->
+                <div class="small-nav">
+                    <a href="#">Dashboard</a>
+                    <span>&gt;</span>
+                    Current Articles
+                </div>
+                <!-- End Small Nav -->
+
+                <br />
+                <!-- Main -->
+                <div id="main">
+                    <div class="cl">&nbsp;</div>
+
+                    <!-- Emp List -->
+                    <div id="content">
+                        <!-- Box -->
+                        <div class="box">
+                            <!-- Box Head -->
+                            <div class="box-head">
+                                <h2 class="left">Employee List</h2>
+                                <div class="right">
+                                    <label>Employee Number</label>
+                                    <input type="text" ng-model="inputEmpID" class="field small-field" />
+                                    <input type="button" class="button" ng-disabled="is_doing_something1" ng-click="searchData()" value="Search" />
+                                </div>
+                            </div>
+                            <!-- End Box Head -->
+
+                            <!-- Table -->
+                            <div class="table" ng-class="{enable : data_size > 10,
+								overflowX : data_size!= null && data_size > 0,
+								overflowY : data_size!= null && data_size > 10}">
+								<center><h3 ng-if="is_doing_something1">Searching Data....</h3></center>
+								<!-- Table -->
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+										<th>No</th>
+                                        <th>Employee Number</th>
+                                        <th>Full Name</th>
+                                        <th>Current Title</th>
+                                        <th>Resign</th>
+                                        <th width="110" class="ac">Content Control</th>
+                                    </tr>
+                                    <tr ng-repeat="emp in empList" ng-class="{odd : ($index % 2) != 0 && data_size > 10,
+										selected : selectedEmp.empNo == emp.empNo}">
+										<td>{{$index + 1}}</td>
+                                        <td>{{emp.empNo}}</td>
+                                        <td>{{emp.firstNm}} {{emp.lasttNm}}</td>
+                                        <td>{{emp.title}}</td>
+                                        <td ng-class="{resign : emp.is_resign == 'true'}">{{emp.is_resign == 'true' ? 'Yes' : 'No'}} </td>
+                                        <td>
+											<a href="#" ng-click="selectEmp(emp)" class="ico view"></a>
+											<a href="#" class="ico del"></a>
+										</td>
+                                    </tr>
+                                </table>
+								<!-- End Table -->
+                            </div>
+							<!-- Pagging -->
+							<div class="pagging" ng-if="data_size!= null && data_size > 10">
+								<div class="left">Showing {{currentPage + 1}}-{{currentSize}} of {{data_size}}</div>
+								<div class="right">
+									<a href="#" ng-show="currentPage > 0" ng-click="paginate('back')">Previous</a>
+									<a href="#" ng-show="currentSize < data_size" ng-click="paginate('next')">Next</a>
+								</div>
+							</div>
+							<!-- End Pagging -->
+                        </div>
+                        <!-- End Box -->
+                    </div>
+					<!-- End Emp List -->
+					<div class="cl">&nbsp;</div>
+					<br>
+					<!-- Title Details -->
+					<table width="1000px;">
+						<tr>
+							<td>
+								<div class="box" style="width:500px;">
+									<!-- Box Head -->
+									<div class="box-head">
+										<h2 class="left">Position History</h2>
+										<img ng-init="is_down_pos = false"
+											ng-class="{down : is_down_pos, up : !is_down_pos}"
+											ng-click="is_down_pos = !is_down_pos"
+										>
+										</img>
+									</div>
+									<!-- End Box Head -->
+
+									<!-- Table -->
+									<div ng-show="is_down_pos" class="table" >
+										<center><h3 ng-if="is_doing_something2">Searching Data....</h3></center>
+										<table width="100%" border="0" cellspacing="0" cellpadding="0">
+											<tr>
+												<th>From Date</th>
+												<th>To Date</th>
+												<th>Title</th>
+												<th width="110" class="ac"></th>
+											</tr>
+											<tr ng-repeat="pos in details.titles">
+												<td>{{pos.from_date}}</td>
+												<td>{{pos.to_date}}</td>
+												<td>{{pos.title}}</td>
+												<td width="110" class="ac">
+													<a href="#" class="ico edit"></a>
+													<a href="#" class="ico del"></a>
+												</td>
+											</tr>
+										</table>
+										<!-- Table -->
+									</div>
+								</div>
+								<!-- End Title Details -->
+							</td>
+							<td rowspan=3>
+								<!-- Sidebar -->
+								<div id="sidebar" style="width:400px;">
+									<!-- Box -->
+									<div class="box">										
+										<!-- Box Head -->
+										<div class="box-head">
+											<h2>Personal Details</h2>
+										</div>
+										<!-- End Box Head-->										
+										<div class="box-content">
+											<!-- Table -->
+											<div class="table">
+												<table width="100%" border="0" cellspacing="0" cellpadding="0">
+													<tr>
+														<td>First Name :</td>
+														<td><input ng-model="selectedEmp.firstNm" type="text" /></td>
+																			</tr>
+													<tr>
+														<td>Last Name : </td>
+														<td><input ng-model="selectedEmp.lasttNm" type="text" /></td>
+													</tr>
+													
+													<tr>
+														<td>Birth Date : </td>
+														<td><input ng-model="selectedEmp.birthDt" type="text" /></td>
+													</tr>
+													
+													<tr>
+														<td>Gender : </td>
+														<td><input ng-model="selectedEmp.gender" type="text" /></td>
+													</tr>
+													<tr>
+														<td colspan=2>
+															<input type="button" class="button" value="Update" />
+														</td>
+													</tr>
+												</table>
+												<!-- Table -->
+											</div>										
+										</div>
+									</div>
+									<!-- End Box -->
+								</div>
+								<!-- End Sidebar -->
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<!-- Salary Details -->
+								<div class="box" style="width:500px;">
+									<!-- Box Head -->
+									<div class="box-head">
+										<h2 class="left">Salary History</h2>
+										<img ng-init="is_down_sal = false"
+											ng-class="{down : is_down_sal, up : !is_down_sal}"
+											ng-click="is_down_sal = !is_down_sal"
+										>
+										</img>
+									</div>
+									<!-- End Box Head -->
+
+									<!-- Table -->
+									<div ng-show="is_down_sal" class="table" >
+										<center><h3 ng-if="is_doing_something2">Searching Data....</h3></center>
+										<table width="100%" border="0" cellspacing="0" cellpadding="0">
+											<tr>
+												<th>From Date</th>
+												<th>To Date</th>
+												<th>Salary</th>
+												<th width="110" class="ac"></th>
+											</tr>
+											<tr ng-repeat="sal in details.salaries">
+												<td>{{sal.from_date}}</td>
+												<td>{{sal.to_date}}</td>
+												<td>{{sal.salary | currency}}</td>
+												<td width="110" class="ac">
+													<a href="#" ng-click="viewTempDetails(1, sal.from_date, sal.to_date);" class="ico edit"></a>
+													<a href="#" class="ico del"></a>
+												</td>
+											</tr>
+										</table>
+										<!-- Table -->
+									</div>
+								</div>
+								<!-- End Salary Details -->
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<!-- Salary Details -->
+								<div class="box" style="width:500px;">
+									<!-- Box Head -->
+									<div class="box-head">
+										<h2 class="left">Department History</h2>
+										<img ng-init="is_down_dept = false"
+											ng-class="{down : is_down_dept, up : !is_down_dept}"
+											ng-click="is_down_dept = !is_down_dept"
+										>
+										</img>
+									</div>
+									<!-- End Box Head -->
+
+									<!-- Table -->
+									<div ng-show="is_down_dept" class="table" >
+										<center><h3 ng-if="is_doing_something2">Searching Data....</h3></center>
+										<table width="100%" border="0" cellspacing="0" cellpadding="0">
+											<tr>
+												<th>From Date</th>
+												<th>To Date</th>
+												<th>Department</th>
+												<th width="110" class="ac"></th>
+											</tr>
+											<tr ng-repeat="dept in details.depts">
+												<td>{{dept.from_date}}</td>
+												<td>{{dept.to_date}}</td>
+												<td>{{dept.dept_name}}</td>
+												<td width="110" class="ac">
+													<a href="#" ng-click="viewTempDetails(2, dept.from_date, dept.to_date);" class="ico edit"></a>
+													<a href="#" class="ico del"></a>
+												</td>
+											</tr>
+										</table>
+										<!-- Table -->
+									</div>
+								</div>
+								<!-- End Salary Details -->
+							</td>
+						</tr>
+					</table>
+                </div>
+                <!-- Main -->
+            </div>
+        </div>
+        <!-- End Container -->
+
+        <!-- Footer -->
+        <div id="footer">
+            <div class="shell">
+                <span class="left">&copy; 2010 - CompanyName</span>
+                <span class="right">
+                    Design by <a href="http://chocotemplates.com" target="_blank" title="The Sweetest CSS Templates WorldWide">Chocotemplates.com</a>
+                </span>
+            </div>
+        </div>
+        <!-- End Footer -->
+	</form>
+	<script src="js/angular.min.js"></script>
+	<script src="js/angular-route.js"></script>
+	<script src="js/control/Emp_Ctrl.js"></script>
+	<script src="js/service/Emp_Service.js"></script>
+	</div>
+    </body>
+</html>
