@@ -2,6 +2,8 @@ var mainApp = angular.module("main_app");
 
 mainApp.service('EmployeeService', function ($http) {
 	this.isExecuted = false;
+	this.DetailsCache = [];
+	
 	this.doQuerySize = function (params) {
 		params['action'] = "doQuerySize";
 		result = 0;
@@ -51,6 +53,8 @@ mainApp.service('EmployeeService', function ($http) {
 	this.doQueryDetails=function (params) {
 		params['action'] = "doQueryDetails";
 		this.isExecuted = true;
+		this.DetailsCache = [];
+		
 		return $http({
 			url: 'http://127.0.0.1:8080/EmployeeService/servlet/Employee',
 			method: "POST",
@@ -61,14 +65,20 @@ mainApp.service('EmployeeService', function ($http) {
 			timeout : 10000
 		}).then(
 			function success(resp) {
-				console.log("doQueryList SUCCESS");
+				console.log("doQueryDetails SUCCESS");
+				this.DetailsCache = resp.data;
+				//console.log(this.DetailsCache);
 				return resp.data;
 			},
 			
 			function fail(resp) {
-				console.log("doQueryList FAIL");
+				console.log("doQueryDetails FAIL");
 				return 0;
 			}
 		);
+	}
+	
+	this.getDetailsCache=function() {
+		return this.DetailsCache;
 	}
 });
